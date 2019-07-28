@@ -11,8 +11,8 @@
 #define SMEXT_CONF_NAME			"Socket"
 #define SMEXT_CONF_DESCRIPTION	"Socket extension for SourceMod"
 #define SMEXT_CONF_VERSION		"3.0.2"
-#define SMEXT_CONF_AUTHOR		"Player"
-#define SMEXT_CONF_URL			"http://www.player.to/"
+#define SMEXT_CONF_AUTHOR		"Player : PerfectLaugh fork"
+#define SMEXT_CONF_URL			"https://github.com/PerfectLaugh/sm-ext-socket"
 #define SMEXT_CONF_LOGTAG		"SOCKET"
 #define SMEXT_CONF_LICENSE		"GPL"
 #define SMEXT_CONF_DATESTRING	__DATE__

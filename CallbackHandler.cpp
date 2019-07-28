@@ -18,7 +18,7 @@ void CallbackHandler::AddCallback(Callback* callback) {
 void CallbackHandler::RemoveCallbacks(SocketWrapper* sw) {
 	boost::mutex::scoped_lock l(callbackQueueMutex);
 
-	for (std::deque<Callback*>::iterator it=callbackQueue.begin(); it!=callbackQueue.end(); ) {
+	for (auto it=callbackQueue.begin(); it!=callbackQueue.end(); ) {
 		if ((*it)->socketWrapper == sw) {
 			/*if (!(*it)->isExecuting)*/ delete *it;
 			it = callbackQueue.erase(it);
@@ -41,7 +41,7 @@ Callback* CallbackHandler::FetchFirstCallback() {
 	boost::mutex::scoped_lock l(callbackQueueMutex);
 
 	if (!callbackQueue.empty()) {
-		for (std::deque<Callback*>::iterator it=callbackQueue.begin(); it!=callbackQueue.end(); it++) {
+		for (auto it=callbackQueue.begin(); it!=callbackQueue.end(); it++) {
 			Callback* ret = callbackQueue.front();
 
 			if (!ret->IsExecutable()) {

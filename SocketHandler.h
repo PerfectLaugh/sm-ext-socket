@@ -2,13 +2,14 @@
 #define INC_SEXT_SOCKETHANDLER_H
 
 #include <deque>
+#include <memory>
 #include <boost/asio.hpp>
 #include <boost/thread.hpp>
 
 #include "Socket.h"
 
 struct SocketWrapper {
-	SocketWrapper(void* socket, SM_SocketType socketType) : socket(socket), socketType(socketType) {}
+	SocketWrapper(void* socket, SM_SocketType socketType) noexcept : socket(socket), socketType(socketType) {}
 	~SocketWrapper();
 
 	void* socket;
@@ -31,16 +32,15 @@ public:
 	void StopProcessing();
 
 	//friend class Socket;
-	boost::asio::io_service* ioService;
+	boost::asio::io_context io;
 
 private:
 	std::deque<SocketWrapper*> socketList;
 	boost::mutex socketListMutex;
 
-	boost::asio::io_service::work* ioServiceWork;
+	boost::asio::executor_work_guard<boost::asio::io_context::executor_type> ioWorkGuard;
 
-	boost::thread* ioServiceProcessingThread;
-	bool ioServiceProcessingThreadInitialized;
+	std::unique_ptr<boost::thread> ioServiceProcessingThread;
 
 	void RunIoService();
 };

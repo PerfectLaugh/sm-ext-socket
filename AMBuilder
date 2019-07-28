@@ -1,0 +1,41 @@
+# vim: set sts=2 ts=8 sw=2 tw=99 et ft=python:
+import os, sys
+import os.path
+
+projectName = 'socket'
+
+# smsdk_ext.cpp will be automatically added later
+sourceFiles = [
+  'extension.cpp',
+  'Callback.cpp',
+  'CallbackHandler.cpp',
+  'Socket.cpp',
+  'SocketHandler.cpp',
+]
+
+###############
+# Make sure to edit PackageScript, which copies your files to their appropriate locations
+# Simple extensions do not need to modify past this point.
+
+binary = builder.compiler.Library(projectName + '.ext')
+Extension.ConfigureForExtension(builder, binary.compiler)
+
+if os.path.isfile(os.path.join(builder.currentSourcePath, 'sdk', 'smsdk_ext.cpp')):
+  # Use the copy included in the project
+  binary.sources += [os.path.join('sdk', 'smsdk_ext.cpp')]
+else:
+  # Use the copy included with SM 1.6 and newer
+  binary.sources += [os.path.join(Extension.sm_root, 'public', 'smsdk_ext.cpp')]
+
+binary.sources += sourceFiles
+
+if 'BOOST1700' in os.environ:
+  boost = os.environ['BOOST1700']
+  boost_libpath = os.path.join(boost, 'stage', 'lib')
+  libs = [os.path.join(boost_libpath, f) for f in os.listdir(boost_libpath) if os.path.isfile(os.path.join(boost_libpath, f))]
+  binary.compiler.cxxincludes += [boost]
+  binary.compiler.postlink += libs
+else:
+  raise Exception('No "BOOST1700" environment variable set')
+
+Extension.extensions = [builder.Add(binary)]

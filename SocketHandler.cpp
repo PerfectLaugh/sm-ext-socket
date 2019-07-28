@@ -29,29 +29,25 @@ SocketWrapper::~SocketWrapper() {
 template Socket<tcp>* SocketHandler::CreateSocket<tcp>(SM_SocketType);
 template Socket<udp>* SocketHandler::CreateSocket<udp>(SM_SocketType);
 
-SocketHandler::SocketHandler() : ioServiceProcessingThreadInitialized(false) {
-	ioService = new boost::asio::io_service();
+SocketHandler::SocketHandler() : ioWorkGuard(io.get_executor()) {
 }
 
 SocketHandler::~SocketHandler() {
-	if (!socketList.empty() || ioServiceProcessingThreadInitialized) {
+	if (!socketList.empty() || ioServiceProcessingThread) {
 		Shutdown();
 	}
-#ifndef WIN32
-	delete ioService;
-#endif
 }
 
 void SocketHandler::Shutdown() {
 	boost::mutex::scoped_lock l(socketListMutex);
 
-	for (std::deque<SocketWrapper*>::iterator it=socketList.begin(); it!=socketList.end(); it++) {
+	for (auto it=socketList.begin(); it!=socketList.end(); it++) {
 		delete *it;
 	}
 
 	socketList.clear();
 
-	if (ioServiceProcessingThreadInitialized) StopProcessing();
+	if (ioServiceProcessingThread) StopProcessing();
 }
 
 template <class SocketType>
@@ -70,7 +66,7 @@ void SocketHandler::DestroySocket(SocketWrapper* sw) {
 	{ // lock
 		boost::mutex::scoped_lock l(socketListMutex);
 
-		for (std::deque<SocketWrapper*>::iterator it=socketList.begin(); it!=socketList.end(); it++) {
+		for (auto it=socketList.begin(); it!=socketList.end(); it++) {
 			if (*it == sw) {
 				socketList.erase(it);
 				break;
@@ -82,33 +78,27 @@ void SocketHandler::DestroySocket(SocketWrapper* sw) {
 }
 
 void SocketHandler::StartProcessing() {
-	assert(!ioServiceProcessingThreadInitialized);
+	assert(!ioServiceProcessingThread);
 
-	ioServiceProcessingThread = new boost::thread(boost::bind(&SocketHandler::RunIoService, this));
-	ioServiceProcessingThreadInitialized = true;
+	ioServiceProcessingThread = std::make_unique<boost::thread>(boost::bind(&SocketHandler::RunIoService, this));
 }
 
 void SocketHandler::StopProcessing() {
-	assert(ioServiceProcessingThreadInitialized);
+	assert(ioServiceProcessingThread);
 
-	ioService->stop();
-	delete ioServiceWork;
+	io.stop();
 	ioServiceProcessingThread->join();
-
-	ioServiceProcessingThreadInitialized = false;
-	delete ioServiceProcessingThread;
+	ioServiceProcessingThread.reset();
 }
 
 void SocketHandler::RunIoService() {
-	//boost::asio::io_service::work work(*ioService);
-	ioServiceWork = new boost::asio::io_service::work(*ioService);
-	ioService->run();
+	io.run();
 }
 
 SocketWrapper* SocketHandler::GetSocketWrapper(const void* socket) {
 	boost::mutex::scoped_lock l(socketListMutex);
 
-	for (std::deque<SocketWrapper*>::iterator it=socketList.begin(); it!=socketList.end(); it++) {
+	for (auto it=socketList.begin(); it!=socketList.end(); it++) {
 		if ((*it)->socket == socket) return *it;
 	}
 

@@ -5,12 +5,10 @@ This has been forked from [sfPlayer´s origin Git repository](http://player.to/gi
 Dependencies for building
 -------------------------
  * [SourceMod](https://github.com/alliedmodders/sourcemod)
- * [Boost](http://www.boost.org/)
- * [msinttypes](https://code.google.com/p/msinttypes/)
+ * [Boost](https://www.boost.org/)
 
 Building on Windows
 -------------------
 Set the following environment variables on your system:
- * `SOURCEMOD` - path to SourceMod (>= 1.5.x)
- * `BOOST155` - path to boost libraries (>= 1.5.5)
- * `MSINTTYPES` - path to latest version of msinttypes
+ * `SOURCEMOD` - path to SourceMod (>= 1.9)
+ * `BOOST1700` - path to boost libraries (>= 1.70.0)

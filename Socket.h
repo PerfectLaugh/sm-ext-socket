@@ -4,11 +4,12 @@
 #include <stdint.h>
 #include <string>
 #include <queue>
+#include <boost/system/error_code.hpp>
 #include <boost/asio.hpp>
 #include <boost/thread.hpp>
 #include <boost/thread/shared_mutex.hpp>
 
-#include "sdk/smsdk_ext.h"
+#include "smsdk_ext.h"
 #include "Define.h"
 
 class SocketHandler;

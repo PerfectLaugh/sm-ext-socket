@@ -40,7 +40,7 @@ enum SM_SocketOption {
 };
 
 struct SocketOption {
-	SocketOption(SM_SocketOption so, int value) : option(so), value(value) {}
+	SocketOption(SM_SocketOption so, int value) noexcept : option(so), value(value) {}
 	SM_SocketOption option;
 	int value;
 };
