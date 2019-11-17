@@ -452,12 +452,12 @@ native int SocketGetHostName(char[] dest, int destLen);
 
 methodmap Socket < Handle {
 
-	public Socket Socket(SocketType protocol=SOCKET_TCP, SocketErrorCB efunc) {
+	public Socket(SocketType protocol=SOCKET_TCP, SocketErrorCB efunc) {
 		return view_as<Socket>(SocketCreate(protocol, efunc));
 	}
 
 	property bool IsConnected {
-		public get {
+		public get() {
 			return SocketIsConnected(this);
 		}
 	} 
@@ -475,11 +475,11 @@ methodmap Socket < Handle {
 	}
 
 	public bool Listen(SocketIncomingCB ifunc) {
-		return SocketListen(this, SocketIncomingCB ifunc);
+		return SocketListen(this, ifunc);
 	}
 
 	public void Send(const char[] data, int size = -1) {
-		SocketSend(this, data, size)
+		SocketSend(this, data, size);
 	}
 
 	public void SendTo(const char[] data, int size=-1, const char[] hostname, int port) {
@@ -503,15 +503,15 @@ methodmap Socket < Handle {
 	}
 
 	public void SetErrorCallback(SocketErrorCB efunc) {
-		SocketSetErrorCallback(this, efunc)
+		SocketSetErrorCallback(this, efunc);
 	}
 
 	public void SetArg(any arg) {
-		SocketSetArg(this, any arg);
+		SocketSetArg(this, arg);
 	}
 
 	public int GetHostName(char[] dest, int destLen) {
-		return SocketGetHostName(dest, destLen)
+		return SocketGetHostName(dest, destLen);
 	}
 }
 
