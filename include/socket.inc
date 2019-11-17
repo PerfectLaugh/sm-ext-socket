@@ -450,6 +450,71 @@ native void SocketSetArg(Handle socket, any arg);
  */
 native int SocketGetHostName(char[] dest, int destLen);
 
+methodmap Socket < Handle {
+
+	public Socket(SocketType protocol=SOCKET_TCP, SocketErrorCB efunc) {
+		return view_as<Socket>(SocketCreate(protocol, efunc));
+	}
+
+	property bool IsConnected {
+		public get() {
+			return SocketIsConnected(this);
+		}
+	} 
+
+	public bool Bind(const char[] hostname, int port) {
+		return SocketBind(this, hostname, port);
+	}
+
+	public void Connect(SocketConnectCB cfunc, SocketReceiveCB rfunc, SocketDisconnectCB dfunc, const char[] hostname, int port) {
+		SocketConnect(this, cfunc, rfunc, dfunc, hostname, port);
+	}
+
+	public bool Disconnect() {
+		return SocketDisconnect(this);
+	}
+
+	public bool Listen(SocketIncomingCB ifunc) {
+		return SocketListen(this, ifunc);
+	}
+
+	public void Send(const char[] data, int size = -1) {
+		SocketSend(this, data, size);
+	}
+
+	public void SendTo(const char[] data, int size=-1, const char[] hostname, int port) {
+		SocketSendTo(this, data, size, hostname, port);
+	}
+
+	public int SetOption(SocketOption option, int value) {
+		return SocketSetOption(this, option, value);
+	}
+
+	public void SetReceiveCallback(SocketReceiveCB rfunc) {
+		SocketSetReceiveCallback(this, rfunc);
+	}
+
+	public void SetSendqueueEmptyCallback(SocketSendqueueEmptyCB sfunc) {
+		SocketSetSendqueueEmptyCallback(this, sfunc);
+	}
+	
+	public void SetDisconnectCallback(SocketDisconnectCB dfunc) {
+		SocketSetDisconnectCallback(this, dfunc);
+	}
+
+	public void SetErrorCallback(SocketErrorCB efunc) {
+		SocketSetErrorCallback(this, efunc);
+	}
+
+	public void SetArg(any arg) {
+		SocketSetArg(this, arg);
+	}
+
+	public int GetHostName(char[] dest, int destLen) {
+		return SocketGetHostName(dest, destLen);
+	}
+}
+
 /**
  * _________________Do not edit below this line!_______________________
  */
