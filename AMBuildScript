@@ -230,7 +230,6 @@ class ExtensionConfig(object):
     ]
     cxx.cxxflags += [
       '/EHsc',
-      '/GR-',
       '/TP',
     ]
     cxx.linkflags += [
