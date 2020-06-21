@@ -2,7 +2,7 @@
 
 #include <assert.h>
 #include <boost/asio.hpp>
-#include <boost/bind.hpp>
+#include <boost/bind/bind.hpp>
 
 #include "CallbackHandler.h"
 

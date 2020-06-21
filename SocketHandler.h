@@ -7,6 +7,7 @@
 #include <boost/thread.hpp>
 
 #include "Socket.h"
+#include "Define.h"
 
 struct SocketWrapper {
 	SocketWrapper(void* socket, SM_SocketType socketType) noexcept : socket(socket), socketType(socketType) {}

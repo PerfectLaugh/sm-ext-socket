@@ -3,7 +3,7 @@
 #include <assert.h>
 #include <cstdio>
 #include <exception>
-#include <boost/bind.hpp>
+#include <boost/bind/bind.hpp>
 
 #include "Callback.h"
 #include "CallbackHandler.h"

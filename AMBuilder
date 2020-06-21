@@ -6,7 +6,7 @@ projectName = 'socket'
 
 # smsdk_ext.cpp will be automatically added later
 sourceFiles = [
-  'extension.cpp',
+  'Extension.cpp',
   'Callback.cpp',
   'CallbackHandler.cpp',
   'Socket.cpp',
@@ -29,13 +29,10 @@ else:
 
 binary.sources += sourceFiles
 
-if 'BOOST1700' in os.environ:
-  boost = os.environ['BOOST1700']
-  boost_libpath = os.path.join(boost, 'stage', 'lib')
-  libs = [os.path.join(boost_libpath, f) for f in os.listdir(boost_libpath) if os.path.isfile(os.path.join(boost_libpath, f))]
-  binary.compiler.cxxincludes += [boost]
-  binary.compiler.postlink += libs
-else:
-  raise Exception('No "BOOST1700" environment variable set')
+boost = os.path.join(builder.currentSourcePath, 'boost_1_73_0')
+boost_libpath = os.path.join(boost, 'stage', 'lib', sys.platform)
+libs = [os.path.join(boost_libpath, f) for f in os.listdir(boost_libpath) if os.path.isfile(os.path.join(boost_libpath, f))]
+binary.compiler.cxxincludes += [boost]
+binary.compiler.postlink += libs
 
 Extension.extensions = [builder.Add(binary)]

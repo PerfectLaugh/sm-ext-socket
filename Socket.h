@@ -4,6 +4,7 @@
 #include <stdint.h>
 #include <string>
 #include <queue>
+#include <memory>
 #include <boost/system/error_code.hpp>
 #include <boost/asio.hpp>
 #include <boost/thread.hpp>
