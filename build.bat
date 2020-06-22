@@ -11,7 +11,7 @@ if "%VSCMD_VER%"=="" (
 git clone https://github.com/alliedmodders/sourcemod --recursive --branch "%BRANCH%" --single-branch "%EXT_DIR%/sourcemod-%BRANCH%"
 
 ; Boost
-wget https://dl.bintray.com/boostorg/release/1.73.0/source/boost_1_73_0.7z
+wget --no-check-certificate https://dl.bintray.com/boostorg/release/1.73.0/source/boost_1_73_0.7z
 7z x boost_1_73_0.7z > nul
 7z x boost_stage.7z -oboost_1_73_0
 
