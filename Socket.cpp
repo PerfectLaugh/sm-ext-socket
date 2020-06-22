@@ -163,7 +163,7 @@ bool Socket<SocketType>::Bind(const char* hostname, uint16_t port, bool async) {
 		}
 
 		return true;
-	} catch (std::exception& e) {
+	} catch (std::exception&) {
 		if (resolver) delete resolver;
 		if (handlerLock) delete handlerLock;
 	}
@@ -234,7 +234,7 @@ bool Socket<SocketType>::Connect(const char* hostname, uint16_t port, bool async
 		}
 
 		return true;
-	} catch (std::exception& e) {
+	} catch (std::exception&) {
 		if (resolver) delete resolver;
 		if (handlerLock) delete handlerLock;
 	}
@@ -321,7 +321,7 @@ bool Socket<SocketType>::Disconnect() {
 		socket->close();
 
 		return true;
-	} catch (std::exception& e) {
+	} catch (std::exception&) {
 	}
 
 	return false;
@@ -371,7 +371,7 @@ bool Socket<tcp>::Listen() {
 											  handlerLock));
 
 		return true;
-	} catch (std::exception& e) {
+	} catch (std::exception&) {
 		if (handlerLock) delete handlerLock;
 		if (nextAsioSocket) delete nextAsioSocket;
 	}
@@ -454,7 +454,7 @@ bool Socket<SocketType>::Send(const std::string& data, bool async) {
 		}
 
 		return true;
-	} catch (std::exception& e) {
+	} catch (std::exception&) {
 		if (buf) delete[] buf;
 		if (handlerLock) delete handlerLock;
 	}
@@ -531,7 +531,7 @@ bool Socket<udp>::SendTo(const std::string& data, const char* hostname, uint16_t
 		}
 
 		return true;
-	} catch (std::exception& e) {
+	} catch (std::exception&) {
 		if (resolver) delete resolver;
 		if (buf) delete[] buf;
 		if (handlerLock) delete handlerLock;
@@ -709,7 +709,7 @@ bool Socket<SocketType>::SetOption(SM_SocketOption so, int value, bool lock) {
 
 		if (l) delete l;
 		return true;
-	} catch (std::exception& e) {
+	} catch (std::exception&) {
 		if (l) delete l;
 		return false;
 	}
