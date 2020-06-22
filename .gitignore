@@ -1,2 +1,3 @@
 build
 boost_*
+!boost_stage.7z
