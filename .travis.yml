@@ -1,0 +1,55 @@
+language: cpp
+
+env:
+  global:
+   - DEPS_DIR=${HOME}/deps
+   - BRANCH=1.10-dev
+
+before_install:
+  - git clone https://github.com/alliedmodders/ambuild ${DEPS_DIR}/ambuild
+
+jobs:
+  include:
+  - name: Linux
+    dist: xenial
+    python: 3
+    before_script:
+      - sudo apt-get install -y gcc-multilib g++-multilib binutils
+      - |
+        pushd ${DEPS_DIR}/ambuild
+        sudo python3 setup.py install
+        popd
+      - chmod +x build.sh
+    script:
+      - ./build.sh
+
+  - name: Windows
+    os: windows
+    python: 3.8
+    env:
+      - PATH=/c/Python38:/c/Python38/Scripts:${PATH}
+    before_script:
+      - choco install -y visualstudio2019buildtools python3 --package-parameters "--add Microsoft.VisualStudio.Component.VC.Tools.x86.x64";
+      - |
+        pushd ${DEPS_DIR}/ambuild
+        python setup.py install
+        popd
+    script:
+      - ./build.bat      
+
+before_deploy:
+  - git config --local user.name "PerfectLaugh"
+  - git config --local user.email "denniswu81229@gmail.com"
+  - export TRAVIS_TAG=deploy-$TRAVIS_BUILD_NUMBER
+  - git tag $TRAVIS_TAG
+
+deploy:
+  provider: releases
+  skip_cleanup: true
+  api_key: $TOKEN
+  file:
+    - build/package/addons/sourcemod/extensions/socket.ext.dll
+    - build/package/addons/sourcemod/extensions/socket.ext.so
+  on:
+    repo: PerfectLaugh/sm-ext-socket
+    all_branches: true
