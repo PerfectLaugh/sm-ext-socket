@@ -8,7 +8,7 @@ git clone https://github.com/alliedmodders/sourcemod --branch $BRANCH --single-b
 
 # Boost
 wget https://dl.bintray.com/boostorg/release/1.73.0/source/boost_1_73_0.7z
-7z x boost_1_73_0.7z
+7z x boost_1_73_0.7z > /dev/null
 7z x boost_stage.7z -o boost_1_73_0
 
 mkdir -p "$EXT_DIR/build"
