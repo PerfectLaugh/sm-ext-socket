@@ -13,7 +13,7 @@ git clone https://github.com/alliedmodders/sourcemod --recursive --branch "%BRAN
 ; Boost
 wget https://dl.bintray.com/boostorg/release/1.73.0/source/boost_1_73_0.7z
 7z x boost_1_73_0.7z > nul
-7z x boost_stage.7z -o boost_1_73_0
+7z x boost_stage.7z -oboost_1_73_0
 
 mkdir "%EXT_DIR%/build"
 pushd "%EXT_DIR%/build"
