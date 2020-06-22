@@ -4,7 +4,7 @@ set -e
 
 EXT_DIR=$(pwd)
 
-git clone https://github.com/alliedmodders/sourcemod --branch $BRANCH --single-branch "$EXT_DIR/sourcemod-$BRANCH"
+git clone https://github.com/alliedmodders/sourcemod --recursive --branch $BRANCH --single-branch "$EXT_DIR/sourcemod-$BRANCH"
 
 # Boost
 wget https://dl.bintray.com/boostorg/release/1.73.0/source/boost_1_73_0.7z
