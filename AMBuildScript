@@ -115,6 +115,7 @@ class ExtensionConfig(object):
       raise Exception('Could not find a source copy of SourceMod')
     self.sm_root = Normalize(self.sm_root)
 
+    """
     if builder.options.mms_path:
       self.mms_root = builder.options.mms_path
     else:
@@ -127,6 +128,7 @@ class ExtensionConfig(object):
     if not self.mms_root or not os.path.isdir(self.mms_root):
       raise Exception('Could not find a source copy of Metamod:Source')
     self.mms_root = Normalize(self.mms_root)
+    """
 
   def configure(self):
     cxx = builder.DetectCompilers()
