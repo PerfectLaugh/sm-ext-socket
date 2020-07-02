@@ -1,4 +1,12 @@
 language: cpp
+branches:
+  only:
+  - master
+  - sales
+  except:
+  - /^(?i:deploy)-.*$/
+  - /^(?i:release)-.*$/
+  - /^(?i:sales)-.*$/
 env:
   global:
   - DEPS_DIR=${HOME}/deps
